@@ -24,9 +24,8 @@ class PrepareImageDirectory:
 
         # create directories
         for path in paths:
-            if os.path.exists(path):
-                shutil.rmtree(path)
-            os.makedirs(path)
+            if not os.path.exists(path):
+                os.makedirs(path)
 
         covid_image_path, other_image_path, images_path, train_path, val_path = paths
 
@@ -46,13 +45,14 @@ class PrepareImageDirectory:
         full_images_path = os.path.join(self.data_path, self.images_path)
         full_train_path = os.path.join(self.data_path, self.train_path)
         full_val_path = os.path.join(self.data_path, self.val_path)
+
         return [covid_image_path, other_image_path, full_images_path, full_train_path, full_val_path]
 
 
 
     def populate_class_directory(self, covid_image_path, other_image_path, images_path):
 
-        print('     Spliting images into "covid" and "other"')
+        print('Spliting images into "covid" and "other"')
 
         metadata = pd.read_csv(os.path.sep.join([self.data_path, 'metadata.csv']))
         print(metadata.head(3))
@@ -71,7 +71,7 @@ class PrepareImageDirectory:
 
                 # path to copy images to
                 output_path = os.path.sep.join([covid_image_path, image_filename])
-
+                print(individual_image_path, output_path)
                 # copy the image across
                 shutil.copy(individual_image_path, output_path)
 

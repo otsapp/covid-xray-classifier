@@ -54,9 +54,15 @@ def main(data_path, images_path, train_path, val_path, train_ratio, num_epochs, 
     print("> Training complete")
 
     # save model state_dict
+    if not os.path.exists(model_path):
+        os.mkdir(model_path)
+
     model_file_path = os.path.join(model_path, name)
+
     torch.save(model, model_file_path)
     print(f"> Model saved at: {model_file_path}")
+
+
 
 
 
